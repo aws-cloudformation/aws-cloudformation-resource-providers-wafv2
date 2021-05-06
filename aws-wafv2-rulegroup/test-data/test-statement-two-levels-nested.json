@@ -1,0 +1,23 @@
+{
+  "NotStatement": {
+    "Statement": {
+      "SizeConstraintStatement": {
+        "ComparisonOperator": "LT",
+        "FieldToMatch": {
+          "Body": {}
+        },
+        "Size": 1024,
+        "TextTransformations": [
+          {
+            "Priority": 0,
+            "Type": "LOWERCASE"
+          },
+          {
+            "Priority": 1,
+            "Type": "HTML_ENTITY_DECODE"
+          }
+        ]
+      }
+    }
+  }
+}

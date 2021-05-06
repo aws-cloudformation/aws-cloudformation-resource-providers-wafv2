@@ -1,0 +1,33 @@
+{
+  "Action": {
+    "Count": {
+      "CustomRequestHandling": {
+        "InsertHeaders": [
+          {
+            "Name": "ruleCountActionHeader1Name",
+            "Value": "ruleCountActionHeader1Value"
+          },
+          {
+            "Name": "ruleCountActionHeader2Name",
+            "Value": "ruleCountActionHeader2Value"
+          }
+        ]
+      }
+    }
+  },
+  "VisibilityConfig": {
+    "SampledRequestsEnabled": true,
+    "CloudWatchMetricsEnabled": true,
+    "MetricName": "testMetricName"
+  },
+  "Name": "testName",
+  "Priority": 200,
+  "Statement": {
+    "GeoMatchStatement": {
+      "CountryCodes": [
+        "US",
+        "CN"
+      ]
+    }
+  }
+}

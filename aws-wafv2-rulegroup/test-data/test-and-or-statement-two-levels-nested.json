@@ -1,0 +1,52 @@
+{
+  "Statements": [
+    {
+      "ByteMatchStatement": {
+        "FieldToMatch": {
+          "SingleHeader": {
+            "Name": "haystack"
+          }
+        },
+        "PositionalConstraint": "CONTAINS",
+        "SearchString": "bmVlZGxl",
+        "TextTransformations": [
+          {
+            "Priority": 0,
+            "Type": "NONE"
+          }
+        ]
+      }
+    },
+    {
+      "GeoMatchStatement": {
+        "CountryCodes": [
+          "US",
+          "CN"
+        ]
+      }
+    },
+    {
+      "RateBasedStatement": {
+        "ScopeDownStatement": {
+          "ByteMatchStatement": {
+            "FieldToMatch": {
+              "SingleHeader": {
+                "Name": "haystack"
+              }
+            },
+            "PositionalConstraint": "CONTAINS_WORD",
+            "SearchString": "bmVlZGxl",
+            "TextTransformations": [
+              {
+                "Priority": 0,
+                "Type": "NONE"
+              }
+            ]
+          }
+        },
+        "Limit": 2000,
+        "AggregateKeyType": "IP"
+      }
+    }
+  ]
+}

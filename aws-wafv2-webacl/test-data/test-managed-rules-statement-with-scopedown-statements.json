@@ -1,0 +1,13 @@
+{
+  "Name": "AWSManagedRules",
+  "VendorName": "AmazonWebServices",
+  "ExcludedRules": [],
+  "ScopeDownStatement": {
+    "GeoMatchStatement": {
+      "CountryCodes": [
+        "US",
+        "CN"
+      ]
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+    "artifact_type": "RESOURCE",
+    "typeName": "AWS::WAFv2::IPSet",
+    "language": "java",
+    "runtime": "java8",
+    "entrypoint": "com.amazonaws.wafv2.ipset.HandlerWrapper::handleRequest",
+    "testEntrypoint": "com.amazonaws.wafv2.ipset.HandlerWrapper::testEntrypoint",
+    "settings": {
+        "namespace": [
+            "com",
+            "amazonaws",
+            "wafv2",
+            "ipset"
+        ],
+        "protocolVersion": "2.0.0"
+    },
+    "executableEntrypoint": "com.amazonaws.wafv2.ipset.HandlerWrapperExecutable"
+}

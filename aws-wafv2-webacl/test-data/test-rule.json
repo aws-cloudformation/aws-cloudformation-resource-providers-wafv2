@@ -1,0 +1,20 @@
+{
+  "Action": {
+    "Block": {}
+  },
+  "VisibilityConfig": {
+    "SampledRequestsEnabled": true,
+    "CloudWatchMetricsEnabled": true,
+    "MetricName": "testMetricName"
+  },
+  "Name": "testName",
+  "Priority": 100,
+  "Statement": {
+    "GeoMatchStatement": {
+      "CountryCodes": [
+        "US",
+        "CN"
+      ]
+    }
+  }
+}
