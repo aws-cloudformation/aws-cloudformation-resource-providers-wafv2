@@ -1,0 +1,27 @@
+{
+  "ScopeDownStatement": {
+    "SizeConstraintStatement": {
+      "ComparisonOperator": "LT",
+      "FieldToMatch": {
+        "Body": {}
+      },
+      "Size": 1024,
+      "TextTransformations": [
+        {
+          "Priority": 0,
+          "Type": "LOWERCASE"
+        },
+        {
+          "Priority": 1,
+          "Type": "HTML_ENTITY_DECODE"
+        }
+      ]
+    }
+  },
+  "Limit": 2000,
+  "AggregateKeyType": "FORWARDED_IP",
+  "ForwardedIPConfig": {
+    "HeaderName": "testHeader",
+    "FallbackBehavior": "MATCH"
+  }
+}

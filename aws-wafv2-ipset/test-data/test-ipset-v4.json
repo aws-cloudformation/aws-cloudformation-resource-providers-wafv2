@@ -1,0 +1,10 @@
+{
+  "Name": "Foo",
+  "Arn": "arn:aws:wafv2:us-west-2:148466149608:regional/ipset/foo/8208f8fc-bf93-4607-9aed-81c497c9eae0",
+  "Id": "8208f8fc-bf93-4607-9aed-81c497c9eae0",
+  "Description": "TestDescription",
+  "IPAddressVersion": "IPV4",
+  "Addresses": [
+    "1.1.1.1/32"
+  ]
+}

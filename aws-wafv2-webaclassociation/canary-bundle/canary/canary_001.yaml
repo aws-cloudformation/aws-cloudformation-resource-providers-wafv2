@@ -1,0 +1,7 @@
+---
+Resources:
+  CanaryWebACLAssociation:
+    Type: 'AWS::WAFv2::WebACLAssociation'
+    Properties:
+      WebACLArn: !ImportValue WebACLOneArn
+      ResourceArn: !ImportValue  APIGatewayArn

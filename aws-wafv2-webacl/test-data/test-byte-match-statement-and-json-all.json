@@ -1,0 +1,19 @@
+{
+  "FieldToMatch": {
+    "JsonBody": {
+      "MatchPattern": {
+        "All": {}
+      },
+      "MatchScope": "ALL",
+      "InvalidFallbackBehavior": "MATCH"
+    }
+  },
+  "PositionalConstraint": "CONTAINS_WORD",
+  "SearchString": "bmVlZGxl",
+  "TextTransformations": [
+    {
+      "Priority": 0,
+      "Type": "NONE"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "Allow": {
+    "CustomRequestHandling": {
+      "InsertHeaders": [
+        {
+          "Name": "ruleAllowActionHeader1Name",
+          "Value": "ruleAllowActionHeader1Value"
+        },
+        {
+          "Name": "ruleAllowActionHeader2Name",
+          "Value": "ruleAllowActionHeader2Value"
+        }
+      ]
+    }
+  }
+}

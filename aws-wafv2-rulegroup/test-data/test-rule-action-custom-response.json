@@ -1,0 +1,18 @@
+{
+  "Block": {
+    "CustomResponse": {
+      "ResponseCode": 503,
+      "CustomResponseBodyKey": "CustomResponseBodyKey1",
+      "ResponseHeaders": [
+        {
+          "Name": "ruleBlockActionHeader1Name",
+          "Value": "ruleBlockActionHeader1Value"
+        },
+        {
+          "Name": "ruleBlockActionHeader2Name",
+          "Value": "ruleBlockActionHeader2Value"
+        }
+      ]
+    }
+  }
+}

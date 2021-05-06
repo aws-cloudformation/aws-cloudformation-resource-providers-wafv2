@@ -1,0 +1,10 @@
+{
+  "CountryCodes": [
+    "US",
+    "CN"
+  ],
+  "ForwardedIPConfig": {
+    "HeaderName": "testHeader",
+    "FallbackBehavior": "MATCH"
+  }
+}

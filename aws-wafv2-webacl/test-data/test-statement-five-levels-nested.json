@@ -1,0 +1,75 @@
+{
+  "RateBasedStatement": {
+    "AggregateKeyType": "IP",
+    "Limit": 100,
+    "ScopeDownStatement": {
+      "NotStatement": {
+        "Statement": {
+          "AndStatement": {
+            "Statements": [
+              {
+                "OrStatement": {
+                  "Statements": [
+                    {
+                      "ByteMatchStatement": {
+                        "FieldToMatch": {
+                          "SingleHeader": {
+                            "Name": "needle"
+                          }
+                        },
+                        "PositionalConstraint": "CONTAINS_WORD",
+                        "SearchString": "bmVlZGxl",
+                        "TextTransformations": [
+                          {
+                            "Priority": 0,
+                            "Type": "NONE"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "SizeConstraintStatement": {
+                        "ComparisonOperator": "LT",
+                        "FieldToMatch": {
+                          "Body": {}
+                        },
+                        "Size": 1024,
+                        "TextTransformations": [
+                          {
+                            "Priority": 0,
+                            "Type": "LOWERCASE"
+                          },
+                          {
+                            "Priority": 1,
+                            "Type": "HTML_ENTITY_DECODE"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "ByteMatchStatement": {
+                  "FieldToMatch": {
+                    "SingleHeader": {
+                      "Name": "haystack"
+                    }
+                  },
+                  "PositionalConstraint": "CONTAINS_WORD",
+                  "SearchString": "bmVlZGxl",
+                  "TextTransformations": [
+                    {
+                      "Priority": 0,
+                      "Type": "NONE"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+    "artifact_type": "RESOURCE",
+    "typeName": "AWS::WAFv2::WebACL",
+    "language": "java",
+    "runtime": "java8",
+    "entrypoint": "com.amazonaws.wafv2.webacl.HandlerWrapper::handleRequest",
+    "testEntrypoint": "com.amazonaws.wafv2.webacl.HandlerWrapper::testEntrypoint",
+    "settings": {
+        "namespace": [
+            "com",
+            "amazonaws",
+            "wafv2",
+            "webacl"
+        ],
+        "protocolVersion": "2.0.0"
+    },
+    "executableEntrypoint": "com.amazonaws.wafv2.webacl.HandlerWrapperExecutable"
+}
