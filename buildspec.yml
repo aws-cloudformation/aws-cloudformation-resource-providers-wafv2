@@ -12,7 +12,7 @@ phases:
       - |
         if [ "$(ls -A $CODEBUILD_SRC_DIR)" ]; then
           cd $CODEBUILD_SRC_DIR
-          if [ "$(ls -A aws-wafv2-commons" ]; then
+          if [ "$(ls -A aws-wafv2-commons)" ]; then
              echo "aws-wafv2-commons exist, installing common library dependency first before verifying."
              cd "aws-wafv2-commons"
              mvn clean install
