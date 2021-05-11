@@ -5,7 +5,10 @@ phases:
         java: openjdk8
         python: 3.7
     commands:
-      -  pip install pre-commit cloudformation-cli-java-plugin
+      - pip install --upgrade 'six==1.15.0'
+      - pip install pre-commit
+      - pip install pyyaml --upgrade
+      - pip install cloudformation-cli cloudformation-cli-java-plugin
   build:
     commands:
       - pre-commit run --all-files
@@ -37,3 +40,9 @@ phases:
         else
           echo "$CODEBUILD_SRC_DIR is empty"
         fi
+    finally:
+      - cat "$CODEBUILD_SRC_DIR/aws-wafv2-rulegroup/rpdk.log"
+      - cat "$CODEBUILD_SRC_DIR/aws-wafv2-webaclassociation/rpdk.log"
+      - cat "$CODEBUILD_SRC_DIR/aws-wafv2-ipset/rpdk.log"
+      - cat "$CODEBUILD_SRC_DIR/aws-wafv2-regexpatternset/rpdk.log"
+      - cat "$CODEBUILD_SRC_DIR/aws-wafv2-webacl/rpdk.log"
