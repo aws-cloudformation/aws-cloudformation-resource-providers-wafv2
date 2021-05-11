@@ -24,13 +24,13 @@ public class CreateHandler extends BaseHandlerStd {
         final Logger logger) {
 
         this.logger = logger;
-        
+
         ResourceModel model = request.getDesiredResourceState();
-        
+
         if(StringUtils.isBlank(model.getResourceArn())) {
             return ProgressEvent.failed(model, callbackContext, HandlerErrorCode.InvalidRequest, "Resource ARN cannot be empty");
         }
-        
+
         if(model.getLogDestinationConfigs() == null || model.getLogDestinationConfigs().isEmpty()) {
             return ProgressEvent.failed(model, callbackContext, HandlerErrorCode.InvalidRequest, "LogDestinationConfigs cannot be empty");
         }
@@ -40,7 +40,7 @@ public class CreateHandler extends BaseHandlerStd {
                 .then(progress -> putLoggingConfiguration(proxy, proxyClient, model, callbackContext))
                 .then(progress -> new ReadHandler().handleRequest(proxy, request, callbackContext, proxyClient, logger));
     }
-    
+
     /**
      * Logging Configurations dont throw an AlreadyExists exception. Hence making a pre-existence check
      * @param proxy

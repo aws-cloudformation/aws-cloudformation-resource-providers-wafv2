@@ -47,10 +47,10 @@ public abstract class BaseHandlerStd extends BaseHandler<CallbackContext> {
     final CallbackContext callbackContext,
     final ProxyClient<Wafv2Client> proxyClient,
     final Logger logger);
-  
-  
+
+
   /**
-   * Create Logging Configurations since one doesnt exist already 
+   * Create Logging Configurations since one doesnt exist already
    * @param proxy
    * @param proxyClient
    * @param model
@@ -68,15 +68,15 @@ public abstract class BaseHandlerStd extends BaseHandler<CallbackContext> {
               .handleError(this::handleError)
               .progress();
   }
-  
-  public ProgressEvent<ResourceModel, CallbackContext> handleError(final Wafv2Request request, 
-          final Exception e, 
-          final ProxyClient<Wafv2Client> proxyClient, 
-          final ResourceModel resourceModel, 
+
+  public ProgressEvent<ResourceModel, CallbackContext> handleError(final Wafv2Request request,
+          final Exception e,
+          final ProxyClient<Wafv2Client> proxyClient,
+          final ResourceModel resourceModel,
           final CallbackContext callbackContext) {
-      
+
       BaseHandlerException ex;
-      
+
       if (e instanceof WafLimitsExceededException || e instanceof WafServiceLinkedRoleErrorException) {
           // we can retry this because it's just throttling.
           throw new CfnThrottlingException(e);

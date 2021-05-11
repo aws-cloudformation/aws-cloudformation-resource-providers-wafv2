@@ -36,19 +36,19 @@ public class ListHandlerTest extends AbstractTestBase {
 
     public void setupHandler(){
         handler = new ListHandler();
-        
-        // Setup both type of Conditions to add to Filters. 
+
+        // Setup both type of Conditions to add to Filters.
         software.amazon.awssdk.services.wafv2.model.Condition condition1 = software.amazon.awssdk.services.wafv2.model.Condition.builder()
                 .actionCondition(software.amazon.awssdk.services.wafv2.model.ActionCondition.builder().action("ALLOW").build())
                 .build();
-        
+
         software.amazon.awssdk.services.wafv2.model.Condition condition2 = software.amazon.awssdk.services.wafv2.model.Condition.builder()
                 .labelNameCondition(software.amazon.awssdk.services.wafv2.model.LabelNameCondition.builder().labelName("testlabel").build())
                 .build();
-        
+
         conditions.add(condition1);
         conditions.add(condition2);
-        
+
         // Setup the Logging Filter
         software.amazon.awssdk.services.wafv2.model.Filter filter = software.amazon.awssdk.services.wafv2.model.Filter.builder()
                 .conditions(conditions)
@@ -56,12 +56,12 @@ public class ListHandlerTest extends AbstractTestBase {
                 .requirement("MEETS_ANY")
                 .build();
         filters.add(filter);
-        
+
         software.amazon.awssdk.services.wafv2.model.LoggingFilter logFilter = software.amazon.awssdk.services.wafv2.model.LoggingFilter.builder()
                 .defaultBehavior("KEEP")
                 .filters(filters)
                 .build();
-        
+
         // Setup Redacted Fields
         fieldsToMatch1.add(software.amazon.awssdk.services.wafv2.model.FieldToMatch.builder()
                 .uriPath(software.amazon.awssdk.services.wafv2.model.UriPath.builder().build())
@@ -76,7 +76,7 @@ public class ListHandlerTest extends AbstractTestBase {
                         .matchScope(software.amazon.awssdk.services.wafv2.model.JsonMatchScope.ALL)
                         .build())
                 .build());
-        
+
         // A variation of Field to Match with null values
         fieldsToMatch2.add(software.amazon.awssdk.services.wafv2.model.FieldToMatch.builder()
                 .jsonBody(software.amazon.awssdk.services.wafv2.model.JsonBody.builder()
@@ -95,27 +95,27 @@ public class ListHandlerTest extends AbstractTestBase {
                 .managedByFirewallManager(true)
                 .loggingFilter(logFilter)
                 .redactedFields(fieldsToMatch1)
-                .build(); 
-        
+                .build();
+
         loggingConfiguration2 = LoggingConfiguration.builder()
                 .resourceArn("resourcearn")
                 .logDestinationConfigs(logDestinationConfigs)
                 .managedByFirewallManager(true)
                 .loggingFilter(logFilter)
                 .redactedFields(fieldsToMatch2)
-                .build(); 
-        
+                .build();
+
         loggingConfigurations.add(loggingConfiguration1);
         loggingConfigurations.add(loggingConfiguration2);
     }
 
     @Test
     public void handleRequest_SimpleSuccess() {
-        
-        // Build and return a List Response 
+
+        // Build and return a List Response
         ListLoggingConfigurationsResponse getResponse = ListLoggingConfigurationsResponse.builder().loggingConfigurations(loggingConfigurations).build();
         when(proxyClient.client().listLoggingConfigurations(any(ListLoggingConfigurationsRequest.class))).thenReturn(getResponse);
-        
+
         final ResourceModel model = ResourceModel.builder().build();
 
         final ResourceHandlerRequest<ResourceModel> request = ResourceHandlerRequest.<ResourceModel>builder().desiredResourceState(model).build();

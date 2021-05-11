@@ -34,16 +34,16 @@ public class ReadHandlerTest extends AbstractTestBase {
                 .resourceArn("resourcearn")
                 .logDestinationConfigs(logDestinationConfigs)
                 .managedByFirewallManager(true)
-                .build(); 
+                .build();
     }
 
     @Test
-    public void handleRequest_SimpleSuccess() { 
-        
-        // Build and return a Get Response 
+    public void handleRequest_SimpleSuccess() {
+
+        // Build and return a Get Response
         GetLoggingConfigurationResponse getResponse = GetLoggingConfigurationResponse.builder().loggingConfiguration(loggingConfiguration).build();
         when(proxyClient.client().getLoggingConfiguration(any(GetLoggingConfigurationRequest.class))).thenReturn(getResponse);
-        
+
         final ResourceModel model = ResourceModel.builder().resourceArn("resourcearn").build();
 
         final ResourceHandlerRequest<ResourceModel> request = ResourceHandlerRequest.<ResourceModel>builder().desiredResourceState(model).build();
@@ -57,12 +57,12 @@ public class ReadHandlerTest extends AbstractTestBase {
         assertThat(response.getMessage()).isNull();
         assertThat(response.getErrorCode()).isNull();
     }
-    
+
     @Test
     @org.junit.jupiter.api.Tag("noSdkInteraction")
     public void handleRequest_InvalidRequest_Failure() {
 
-        //Pass a model which has no Resource ARN 
+        //Pass a model which has no Resource ARN
         final ResourceModel model1 = ResourceModel.builder().logDestinationConfigs(logDestinationConfigs).build();
 
         final ResourceHandlerRequest<ResourceModel> request = ResourceHandlerRequest.<ResourceModel>builder().desiredResourceState(model1).build();
@@ -73,7 +73,7 @@ public class ReadHandlerTest extends AbstractTestBase {
         assertThat(response.getStatus()).isEqualTo(OperationStatus.FAILED);
         assertThat(response.getCallbackDelaySeconds()).isEqualTo(0);
         assertThat(response.getResourceModels()).isNull();
-        assertThat(response.getMessage()).isEqualTo("Resource ARN cannot be empty");   
+        assertThat(response.getMessage()).isEqualTo("Resource ARN cannot be empty");
         assertThat(response.getErrorCode()).isEqualTo(HandlerErrorCode.InvalidRequest);
     }
 }

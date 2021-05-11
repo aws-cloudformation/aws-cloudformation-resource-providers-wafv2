@@ -26,7 +26,7 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class CreateHandlerTest extends AbstractTestBase {
-    
+
     private CreateHandler handler;
     private LoggingConfiguration loggingConfiguration1;
     private LoggingConfiguration loggingConfiguration2;
@@ -38,19 +38,19 @@ public class CreateHandlerTest extends AbstractTestBase {
 
     public void setupHandler(){
         handler = new CreateHandler();
-        
-        // Setup both type of Conditions to add to Filters. 
+
+        // Setup both type of Conditions to add to Filters.
         software.amazon.awssdk.services.wafv2.model.Condition condition1 = software.amazon.awssdk.services.wafv2.model.Condition.builder()
                 .actionCondition(software.amazon.awssdk.services.wafv2.model.ActionCondition.builder().action("ALLOW").build())
                 .build();
-        
+
         software.amazon.awssdk.services.wafv2.model.Condition condition2 = software.amazon.awssdk.services.wafv2.model.Condition.builder()
                 .labelNameCondition(software.amazon.awssdk.services.wafv2.model.LabelNameCondition.builder().labelName("testlabel").build())
                 .build();
-        
+
         conditions.add(condition1);
         conditions.add(condition2);
-        
+
         // Setup the Logging Filter
         software.amazon.awssdk.services.wafv2.model.Filter filter = software.amazon.awssdk.services.wafv2.model.Filter.builder()
                 .conditions(conditions)
@@ -58,12 +58,12 @@ public class CreateHandlerTest extends AbstractTestBase {
                 .requirement("MEETS_ANY")
                 .build();
         filters.add(filter);
-        
+
         software.amazon.awssdk.services.wafv2.model.LoggingFilter logFilter = software.amazon.awssdk.services.wafv2.model.LoggingFilter.builder()
                 .defaultBehavior("KEEP")
                 .filters(filters)
                 .build();
-        
+
         // Setup Redacted Fields
         fieldsToMatch1.add(software.amazon.awssdk.services.wafv2.model.FieldToMatch.builder()
                 .uriPath(software.amazon.awssdk.services.wafv2.model.UriPath.builder().build())
@@ -78,7 +78,7 @@ public class CreateHandlerTest extends AbstractTestBase {
                         .matchScope(software.amazon.awssdk.services.wafv2.model.JsonMatchScope.ALL)
                         .build())
                 .build());
-        
+
         // A variation of Field to Match with null values
         fieldsToMatch2.add(software.amazon.awssdk.services.wafv2.model.FieldToMatch.builder()
                 .jsonBody(software.amazon.awssdk.services.wafv2.model.JsonBody.builder()
@@ -97,44 +97,44 @@ public class CreateHandlerTest extends AbstractTestBase {
                 .managedByFirewallManager(true)
                 .loggingFilter(logFilter)
                 .redactedFields(fieldsToMatch1)
-                .build(); 
-        
+                .build();
+
         loggingConfiguration2 = LoggingConfiguration.builder()
                 .resourceArn("resourcearn")
                 .logDestinationConfigs(logDestinationConfigs)
                 .managedByFirewallManager(true)
                 .loggingFilter(logFilter)
                 .redactedFields(fieldsToMatch2)
-                .build(); 
+                .build();
     }
 
     @Test
     public void handleRequest_SimpleSuccess() {
-        
-        // Build and return a Get Response 
+
+        // Build and return a Get Response
         GetLoggingConfigurationResponse getResponse = GetLoggingConfigurationResponse.builder().loggingConfiguration(loggingConfiguration1).build();
         when(proxyClient.client().getLoggingConfiguration(any(GetLoggingConfigurationRequest.class))).thenThrow(WafNonexistentItemException.class).thenReturn(getResponse);
-        
-        // Build and return a Put Response 
+
+        // Build and return a Put Response
         PutLoggingConfigurationResponse putResponse = PutLoggingConfigurationResponse.builder().loggingConfiguration(loggingConfiguration1).build();
         when(proxyClient.client().putLoggingConfiguration(any(PutLoggingConfigurationRequest.class))).thenReturn(putResponse);
 
         List<Condition> modelConditions = new ArrayList<>();
-        // Setup both type of Conditions to return. 
+        // Setup both type of Conditions to return.
         Condition modelCondition1 = Condition.builder().actionCondition(ActionCondition.builder().action("ALLOW").build()).build();
         Condition modelCondition2 = Condition.builder().labelNameCondition(LabelNameCondition.builder().labelName("testlabel").build()).build();
-        
+
         modelConditions.add(modelCondition1);
         modelConditions.add(modelCondition2);
-        
+
         // Setup the Filter
         List<Filter> modelFilters = new ArrayList<>();
         Filter modelFilter = Filter.builder().conditions(modelConditions).behavior("KEEP").requirement("MEETS_ANY").build();
         modelFilters.add(modelFilter);
-        
+
         LoggingFilter modelLogFilter = LoggingFilter.builder().defaultBehavior("KEEP").filters(modelFilters).build();
-        
-        // Setup Fields to Match 
+
+        // Setup Fields to Match
         List<FieldToMatch> modelFieldsToMatch = new ArrayList<>();
         modelFieldsToMatch.add(FieldToMatch.builder()
                 .uriPath(new HashMap<String, Object>())
@@ -149,7 +149,7 @@ public class CreateHandlerTest extends AbstractTestBase {
                         .matchScope("ALL")
                         .build())
                 .build());
-        
+
         final ResourceModel model = ResourceModel.builder()
                 .resourceArn("resourcearn")
                 .managedByFirewallManager(true)
@@ -169,34 +169,34 @@ public class CreateHandlerTest extends AbstractTestBase {
         assertThat(response.getMessage()).isNull();
         assertThat(response.getErrorCode()).isNull();
     }
-    
+
     @Test
     public void handleRequest_SimpleRedactedFields_SimpleSuccess() {
-        
-        // Build and return a Get Response 
+
+        // Build and return a Get Response
         GetLoggingConfigurationResponse getResponse = GetLoggingConfigurationResponse.builder().loggingConfiguration(loggingConfiguration2).build();
         when(proxyClient.client().getLoggingConfiguration(any(GetLoggingConfigurationRequest.class))).thenThrow(WafNonexistentItemException.class).thenReturn(getResponse);
-        
-        // Build and return a Put Response 
+
+        // Build and return a Put Response
         PutLoggingConfigurationResponse putResponse = PutLoggingConfigurationResponse.builder().loggingConfiguration(loggingConfiguration2).build();
         when(proxyClient.client().putLoggingConfiguration(any(PutLoggingConfigurationRequest.class))).thenReturn(putResponse);
 
         List<Condition> modelConditions = new ArrayList<>();
-        // Setup both type of Conditions to return. 
+        // Setup both type of Conditions to return.
         Condition modelCondition1 = Condition.builder().actionCondition(ActionCondition.builder().action("ALLOW").build()).build();
         Condition modelCondition2 = Condition.builder().labelNameCondition(LabelNameCondition.builder().labelName("testlabel").build()).build();
-        
+
         modelConditions.add(modelCondition1);
         modelConditions.add(modelCondition2);
-        
+
         // Setup the Filter
         List<Filter> modelFilters = new ArrayList<>();
         Filter modelFilter = Filter.builder().conditions(modelConditions).behavior("KEEP").requirement("MEETS_ANY").build();
         modelFilters.add(modelFilter);
-        
+
         LoggingFilter modelLogFilter = LoggingFilter.builder().defaultBehavior("KEEP").filters(modelFilters).build();
-        
-        // Setup Fields to Match 
+
+        // Setup Fields to Match
         List<FieldToMatch> modelFieldsToMatch = new ArrayList<>();
         modelFieldsToMatch.add(FieldToMatch.builder()
                 .jsonBody(JsonBody.builder()
@@ -207,7 +207,7 @@ public class CreateHandlerTest extends AbstractTestBase {
                         .matchScope("ALL")
                         .build())
                 .build());
-        
+
         final ResourceModel model = ResourceModel.builder()
                 .resourceArn("resourcearn")
                 .managedByFirewallManager(true)
@@ -227,11 +227,11 @@ public class CreateHandlerTest extends AbstractTestBase {
         assertThat(response.getMessage()).isNull();
         assertThat(response.getErrorCode()).isNull();
     }
-    
+
     @Test
     public void handleRequest_PreExistence_Failure() {
-        
-        // Build and return a Get Response 
+
+        // Build and return a Get Response
         GetLoggingConfigurationResponse getResponse = GetLoggingConfigurationResponse.builder().loggingConfiguration(loggingConfiguration1).build();
         when(proxyClient.client().getLoggingConfiguration(any(GetLoggingConfigurationRequest.class))).thenReturn(getResponse);
 
@@ -252,23 +252,23 @@ public class CreateHandlerTest extends AbstractTestBase {
         assertThat(response.getResourceModels()).isNull();
         assertThat(response.getMessage()).isEqualTo("Logging Configuration for resourcearn already exists");
     }
-    
+
     @Test
     @org.junit.jupiter.api.Tag("noSdkInteraction")
     public void handleRequest_InvalidRequest_Failure() {
-        
+
         List<ResourceModel> models = new ArrayList<ResourceModel>();
 
-        //Pass a model which has no Resource ARN 
+        //Pass a model which has no Resource ARN
         final ResourceModel model1 = ResourceModel.builder().logDestinationConfigs(logDestinationConfigs).build();
-        
+
         //Pass a model which has no Log Destination Configs
         final ResourceModel model2 = ResourceModel.builder().resourceArn("resourcearn").build();
-        
+
         models.add(model1);
         models.add(model2);
 
-        for(int i = 0; i < models.size(); i++) { 
+        for(int i = 0; i < models.size(); i++) {
             final ResourceHandlerRequest<ResourceModel> request = ResourceHandlerRequest.<ResourceModel>builder().desiredResourceState(models.get(i)).build();
 
             final ProgressEvent<ResourceModel, CallbackContext> response = handler.handleRequest(proxy, request, new CallbackContext(), proxyClient, logger);
@@ -278,7 +278,7 @@ public class CreateHandlerTest extends AbstractTestBase {
             assertThat(response.getCallbackDelaySeconds()).isEqualTo(0);
             assertThat(response.getResourceModels()).isNull();
             if (i == 0) {
-                assertThat(response.getMessage()).isEqualTo("Resource ARN cannot be empty");   
+                assertThat(response.getMessage()).isEqualTo("Resource ARN cannot be empty");
             } else {
                 assertThat(response.getMessage()).isEqualTo("LogDestinationConfigs cannot be empty");
             }

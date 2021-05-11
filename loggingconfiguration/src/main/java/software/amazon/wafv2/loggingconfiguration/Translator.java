@@ -31,14 +31,14 @@ public class Translator {
               .loggingConfiguration(translateToLoggingConfiguration(model))
               .build();
   }
-  
+
   /**
    * Construct Logging Configuration from the Resource Model
    * @param model
    * @return A LoggingConfiguration Object
    */
   static LoggingConfiguration translateToLoggingConfiguration(final ResourceModel model) {
-      
+
       return LoggingConfiguration.builder()
               .resourceArn(model.getResourceArn())
               .logDestinationConfigs(model.getLogDestinationConfigs().get(0)) // TODO: What happens if there is more than 1?
@@ -47,24 +47,24 @@ public class Translator {
               .redactedFields(translateToSDKRedactedFields(model.getRedactedFields()))
               .build();
   }
-  
+
   /**
    * Construct a SDK Logging Filter from the Resource Model
    * @param model
    * @return A SDK LoggingFilter Object
    */
   static software.amazon.awssdk.services.wafv2.model.LoggingFilter translateToLoggingFilter(final LoggingFilter loggingFilter) {
-      
+
       if(!Objects.isNull(loggingFilter)) {
           software.amazon.awssdk.services.wafv2.model.LoggingFilter.Builder loggingFilterBuilder = software.amazon.awssdk.services.wafv2.model.LoggingFilter.builder();
-          
+
           if(!Objects.isNull(loggingFilter.getDefaultBehavior())) loggingFilterBuilder = loggingFilterBuilder.defaultBehavior(loggingFilter.getDefaultBehavior());
-          
+
           return loggingFilterBuilder.filters(translateToSDKFilters(loggingFilter.getFilters())).build();
       }
       return null;
   }
-  
+
   /**
    * Construct Filters from the Resource Model
    * @param model
@@ -75,7 +75,7 @@ public class Translator {
               .map(filter -> translateToSDKFilter(filter))
               .collect(Collectors.toList());
   }
-  
+
   /**
    * Construct a single SDK Filter Object from the Model Filter
    * @param model
@@ -88,7 +88,7 @@ public class Translator {
               .conditions(translateToSDKConditions(filter.getConditions()))
               .build();
   }
-  
+
   /**
    * Construct a List of SDK Conditions Objects for a given Model Condition
    * @param model
@@ -99,29 +99,29 @@ public class Translator {
               .map(condition -> translateToSDKCondition(condition))
               .collect(Collectors.toList());
   }
-  
+
   /**
    * Construct a single SDK Condition given a Model Condition type
    * @param A Model Condition Object
    * @return An SDK Condition Object
    */
   static software.amazon.awssdk.services.wafv2.model.Condition translateToSDKCondition(final Condition condition) {
-      
+
       software.amazon.awssdk.services.wafv2.model.Condition.Builder conditionBuilder = software.amazon.awssdk.services.wafv2.model.Condition.builder();
-      
-      if (!Objects.isNull(condition.getActionCondition())) 
+
+      if (!Objects.isNull(condition.getActionCondition()))
           conditionBuilder = conditionBuilder.actionCondition(software.amazon.awssdk.services.wafv2.model.ActionCondition.builder()
                   .action(condition.getActionCondition().getAction())
                   .build());
-      
-      if (!Objects.isNull(condition.getLabelNameCondition())) 
+
+      if (!Objects.isNull(condition.getLabelNameCondition()))
           conditionBuilder = conditionBuilder.labelNameCondition(software.amazon.awssdk.services.wafv2.model.LabelNameCondition.builder()
                   .labelName(condition.getLabelNameCondition().getLabelName())
                   .build());
-      
+
       return conditionBuilder.build();
   }
-  
+
   /**
    * Construct a List of Field to Match Objects for Redacted Fields
    * @param model
@@ -132,43 +132,43 @@ public class Translator {
               .map(field -> translateToSDKFieldToMatch(field))
               .collect(Collectors.toList());
   }
-  
+
   /**
    * Construct a single SDK FieldToMatch Object from a Model FieldToMatch
    * @param model
    * @return A FieldToMatch Object
    */
   static software.amazon.awssdk.services.wafv2.model.FieldToMatch translateToSDKFieldToMatch(final FieldToMatch field) {
-      
+
       software.amazon.awssdk.services.wafv2.model.FieldToMatch.Builder fieldBuilder = software.amazon.awssdk.services.wafv2.model.FieldToMatch.builder();
-      
+
       if (!Objects.isNull(field.getMethod())) fieldBuilder = fieldBuilder.method(software.amazon.awssdk.services.wafv2.model.Method.builder().build());
       if (!Objects.isNull(field.getQueryString())) fieldBuilder = fieldBuilder.queryString(software.amazon.awssdk.services.wafv2.model.QueryString.builder().build());
       if (!Objects.isNull(field.getUriPath())) fieldBuilder = fieldBuilder.uriPath(software.amazon.awssdk.services.wafv2.model.UriPath.builder().build());
-      
-      if (!Objects.isNull(field.getSingleHeader()) && !StringUtils.isNullOrEmpty(field.getSingleHeader().getName())) 
+
+      if (!Objects.isNull(field.getSingleHeader()) && !StringUtils.isNullOrEmpty(field.getSingleHeader().getName()))
           fieldBuilder = fieldBuilder.singleHeader(software.amazon.awssdk.services.wafv2.model.SingleHeader.builder().name(field.getSingleHeader().getName()).build());
-      
+
       return fieldBuilder.jsonBody(translateToSDKJsonBody(field.getJsonBody())).build();
   }
-  
+
   /**
    * Construct a single SDK JsonBody from a Model JsonBody Object
    * @param model
    * @return A FieldToMatch Object
    */
   static software.amazon.awssdk.services.wafv2.model.JsonBody translateToSDKJsonBody(final JsonBody jsonBody) {
-      
+
       if (!Objects.isNull(jsonBody)) {
           software.amazon.awssdk.services.wafv2.model.JsonBody.Builder jsonBodyBuilder = software.amazon.awssdk.services.wafv2.model.JsonBody.builder();
-          
+
           jsonBodyBuilder = jsonBodyBuilder.invalidFallbackBehavior(jsonBody.getInvalidFallbackBehavior()).matchScope(jsonBody.getMatchScope());
-          
-          if (Objects.isNull(jsonBody.getMatchPattern().getAll())) 
+
+          if (Objects.isNull(jsonBody.getMatchPattern().getAll()))
               return jsonBodyBuilder.matchPattern(software.amazon.awssdk.services.wafv2.model.JsonMatchPattern.builder()
                       .includedPaths(jsonBody.getMatchPattern().getIncludedPaths())
                       .build()).build();
-          
+
           return jsonBodyBuilder.matchPattern(software.amazon.awssdk.services.wafv2.model.JsonMatchPattern.builder()
                       .includedPaths(jsonBody.getMatchPattern().getIncludedPaths())
                       .all(software.amazon.awssdk.services.wafv2.model.All.builder().build())
@@ -202,24 +202,24 @@ public class Translator {
             .redactedFields(translateToModelRedactedFields(getResponse.loggingConfiguration().redactedFields()))
             .build();
   }
-  
+
   /**
    * Construct a single Logging Filter Object from the SDK Logging Filter
    * @param model
    * @return A Condition Object
    */
   static LoggingFilter translateToModelLoggingFilter(final software.amazon.awssdk.services.wafv2.model.LoggingFilter loggingFilter) {
-      
+
       if(!Objects.isNull(loggingFilter)) {
           LoggingFilter.LoggingFilterBuilder loggingFilterBuilder = LoggingFilter.builder();
-          
+
           if(!Objects.isNull(loggingFilter.defaultBehavior())) loggingFilterBuilder = loggingFilterBuilder.defaultBehavior(loggingFilter.defaultBehaviorAsString());
-          
+
           return loggingFilterBuilder.filters(translateToModelFilters(loggingFilter.filters())).build();
       }
       return null;
   }
-  
+
   /**
    * Translates resource object from sdk into a resource model
    * @param awsResponse the aws service describe resource response
@@ -230,7 +230,7 @@ public class Translator {
               .map(filter -> translateToModelFilter(filter))
               .collect(Collectors.toList());
   }
-  
+
   /**
    * Construct a single Model Filter Object from the SDK Filter
    * @param model
@@ -243,7 +243,7 @@ public class Translator {
               .conditions(translateToModelConditions(filter.conditions()))
               .build();
   }
-  
+
   /**
    * Translates SDK List of Conditions into Model Conditions
    * @param List of SDK Conditions
@@ -254,25 +254,25 @@ public class Translator {
               .map(filter -> translateToModelCondition(filter))
               .collect(Collectors.toList());
   }
-  
+
   /**
    * Construct a single Model Condition Object from the SDK Condition
    * @param model
    * @return A Condition Object
    */
   static Condition translateToModelCondition(final software.amazon.awssdk.services.wafv2.model.Condition condition) {
-      
+
       Condition.ConditionBuilder conditionBuilder = Condition.builder();
-      
-      if(!Objects.isNull(condition.actionCondition())) 
+
+      if(!Objects.isNull(condition.actionCondition()))
           conditionBuilder = conditionBuilder.actionCondition(ActionCondition.builder().action(condition.actionCondition().actionAsString()).build());
-      
-      if(!Objects.isNull(condition.labelNameCondition())) 
+
+      if(!Objects.isNull(condition.labelNameCondition()))
           conditionBuilder = conditionBuilder.labelNameCondition(LabelNameCondition.builder().labelName(condition.labelNameCondition().labelName()).build());
-      
+
       return conditionBuilder.build();
   }
-  
+
   /**
    * Construct a List of Model Field to Match Objects for from SDK FieldToMatch List
    * @param model
@@ -283,48 +283,48 @@ public class Translator {
               .map(field -> translateToModelFieldToMatch(field))
               .collect(Collectors.toList());
   }
-  
+
   /**
    * Construct a single Model FieldToMatch Object
    * @param model
    * @return A FieldToMatch Object
    */
   static FieldToMatch translateToModelFieldToMatch(final software.amazon.awssdk.services.wafv2.model.FieldToMatch field) {
-      
+
       FieldToMatch.FieldToMatchBuilder fieldBuilder = FieldToMatch.builder();
-      
+
       if (!Objects.isNull(field.method())) fieldBuilder = fieldBuilder.method(new HashMap<String, Object>());
       if (!Objects.isNull(field.queryString())) fieldBuilder = fieldBuilder.queryString(new HashMap<String, Object>());
       if (!Objects.isNull(field.uriPath())) fieldBuilder = fieldBuilder.uriPath(new HashMap<String, Object>());
-      
-      
-      if (!Objects.isNull(field.singleHeader()) && !StringUtils.isNullOrEmpty(field.singleHeader().name())) 
+
+
+      if (!Objects.isNull(field.singleHeader()) && !StringUtils.isNullOrEmpty(field.singleHeader().name()))
           fieldBuilder = fieldBuilder.singleHeader(SingleHeader.builder().name(field.singleHeader().name()).build());
-      
+
       return fieldBuilder.jsonBody(translateToModelJsonBody(field.jsonBody())).build();
   }
-  
+
   /**
    * Construct a single Model JsonBody from a SDK JsonBody Object
    * @param model
    * @return A FieldToMatch Object
    */
   static JsonBody translateToModelJsonBody(final software.amazon.awssdk.services.wafv2.model.JsonBody jsonBody) {
-      
+
       if (!Objects.isNull(jsonBody)) {
           JsonBody.JsonBodyBuilder jsonBodyBuilder = JsonBody.builder();
-          
+
           jsonBodyBuilder = jsonBodyBuilder.invalidFallbackBehavior(jsonBody.invalidFallbackBehaviorAsString()).matchScope(jsonBody.matchScopeAsString());
-          
+
           // All is null, build and return without it
           if (Objects.isNull(jsonBody.matchPattern().all())) return jsonBodyBuilder.matchPattern(MatchPattern.builder().includedPaths(jsonBody.matchPattern().includedPaths()).build()).build();
-          
+
           // All is not null, build and return with it
           return jsonBodyBuilder.matchPattern(MatchPattern.builder().includedPaths(jsonBody.matchPattern().includedPaths()).all(new HashMap<String, Object>()).build()).build();
       }
       return null;
   }
-  
+
   /**
    * Request to delete a resource
    * @param model resource model

@@ -17,7 +17,7 @@ public class ListHandler extends BaseHandlerStd {
         final CallbackContext callbackContext,
         final ProxyClient<Wafv2Client> proxyClient,
         final Logger logger) {
-        
+
         return proxy.initiate("AWS-WAFv2-LoggingConfiguration::List", proxyClient, request.getDesiredResourceState(), callbackContext)
             .translateToServiceRequest((cbModel) -> Translator.translateToListRequest(request.getNextToken()))
             .makeServiceCall((cbRequest, cbProxyClient) -> cbProxyClient.injectCredentialsAndInvokeV2(cbRequest, cbProxyClient.client()::listLoggingConfigurations))

@@ -40,7 +40,7 @@ _Update requires_: [No interruption](https://docs.aws.amazon.com/AWSCloudFormati
 
 #### Method
 
-Inspect the HTTP method. The method indicates the type of operation that the request is asking the origin to perform. 
+Inspect the HTTP method. The method indicates the type of operation that the request is asking the origin to perform.
 
 _Required_: No
 
@@ -50,7 +50,7 @@ _Update requires_: [No interruption](https://docs.aws.amazon.com/AWSCloudFormati
 
 #### QueryString
 
-Inspect the query string. This is the part of a URL that appears after a ? character, if any. 
+Inspect the query string. This is the part of a URL that appears after a ? character, if any.
 
 _Required_: No
 
@@ -68,11 +68,10 @@ _Update requires_: [No interruption](https://docs.aws.amazon.com/AWSCloudFormati
 
 #### UriPath
 
-Inspect the request URI path. This is the part of a web request that identifies a resource, for example, /images/daily-ad.jpg. 
+Inspect the request URI path. This is the part of a web request that identifies a resource, for example, /images/daily-ad.jpg.
 
 _Required_: No
 
 _Type_: Map
 
 _Update requires_: [No interruption](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-no-interrupt)
-

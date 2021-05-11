@@ -22,13 +22,13 @@ public class ReadHandler extends BaseHandlerStd {
         final Logger logger) {
 
         this.logger = logger;
-        
+
         final ResourceModel model = request.getDesiredResourceState();
-        
+
         if(StringUtils.isBlank(model.getResourceArn())) {
             return ProgressEvent.failed(model, callbackContext, HandlerErrorCode.InvalidRequest, "Resource ARN cannot be empty");
         }
-        
+
         return proxy.initiate("AWS-WAFv2-LoggingConfiguration::Read", proxyClient, request.getDesiredResourceState(), callbackContext)
             .translateToServiceRequest(Translator::translateToReadRequest)
             .makeServiceCall((cbRequest, cbProxyClient) -> cbProxyClient.injectCredentialsAndInvokeV2(cbRequest, cbProxyClient.client()::getLoggingConfiguration))

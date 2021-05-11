@@ -16,7 +16,7 @@ import software.amazon.cloudformation.proxy.ResourceHandlerRequest;
 
 public class DeleteHandler extends BaseHandlerStd {
     private Logger logger;
-    
+
     protected static final String MESSAGE_STABILIZED = "Logging Configuration Delete has stabilized";
     protected static final String MESSAGE_DID_NOT_STABILIZE = "Logging Configuration Delete has not stabilized";
 
@@ -29,7 +29,7 @@ public class DeleteHandler extends BaseHandlerStd {
 
         this.logger = logger;
         ResourceModel model = request.getDesiredResourceState();
-        
+
         if (StringUtils.isNullOrEmpty(model.getResourceArn())) {
             return ProgressEvent.failed(model, callbackContext, HandlerErrorCode.InvalidRequest, "Resource ARN cannot be empty");
         }
@@ -42,7 +42,7 @@ public class DeleteHandler extends BaseHandlerStd {
                         .handleError(this::handleError)
                         .done(cbResponse -> ProgressEvent.<ResourceModel, CallbackContext> builder().status(OperationStatus.SUCCESS).build()));
     }
-    
+
     /**
      * Method to stabilize the deletion of the specified Logging Configuration
      * @param proxyClient

@@ -46,4 +46,3 @@ _Required_: Yes
 _Type_: List of <a href="filter.md">Filter</a>
 
 _Update requires_: [No interruption](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-no-interrupt)
-

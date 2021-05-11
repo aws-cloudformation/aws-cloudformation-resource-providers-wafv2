@@ -38,20 +38,20 @@ public class UpdateHandlerTest extends AbstractTestBase {
                 .resourceArn("resourcearn")
                 .logDestinationConfigs(logDestinationConfigs)
                 .managedByFirewallManager(true)
-                .build(); 
-        
+                .build();
+
         // Previous Model
         previousModel = ResourceModel.builder().resourceArn("resourcearn").logDestinationConfigs(logDestinationConfigs).build();
     }
 
     @Test
     public void handleRequest_SimpleSuccess() {
-        
-        // Build and return a Get Response 
+
+        // Build and return a Get Response
         GetLoggingConfigurationResponse getResponse = GetLoggingConfigurationResponse.builder().loggingConfiguration(loggingConfiguration).build();
         when(proxyClient.client().getLoggingConfiguration(any(GetLoggingConfigurationRequest.class))).thenReturn(getResponse);
-        
-        // Build and return a Put Response 
+
+        // Build and return a Put Response
         PutLoggingConfigurationResponse putResponse = PutLoggingConfigurationResponse.builder().loggingConfiguration(loggingConfiguration).build();
         when(proxyClient.client().putLoggingConfiguration(any(PutLoggingConfigurationRequest.class))).thenReturn(putResponse);
 
@@ -75,11 +75,11 @@ public class UpdateHandlerTest extends AbstractTestBase {
         assertThat(response.getMessage()).isNull();
         assertThat(response.getErrorCode()).isNull();
     }
-    
+
     @Test
     public void handleRequest_PreExistence_Failure() {
-        
-        // Build and return a Get Response 
+
+        // Build and return a Get Response
         //GetLoggingConfigurationResponse getResponse = GetLoggingConfigurationResponse.builder().loggingConfiguration(loggingConfiguration).build();
         when(proxyClient.client().getLoggingConfiguration(any(GetLoggingConfigurationRequest.class))).thenThrow(WafNonexistentItemException.class);
 
@@ -102,30 +102,30 @@ public class UpdateHandlerTest extends AbstractTestBase {
         assertThat(response.getCallbackDelaySeconds()).isEqualTo(0);
         assertThat(response.getResourceModels()).isNull();
     }
-    
+
     @Test
     @org.junit.jupiter.api.Tag("noSdkInteraction")
     public void handleRequest_InvalidRequest_Failure() {
-        
+
         List<ResourceModel> models = new ArrayList<ResourceModel>();
         List<String> newLogDestinationConfigs = new ArrayList<String>();
         newLogDestinationConfigs.add("firehose-arn-changed");
 
-        //Pass a model which has no Resource ARN 
+        //Pass a model which has no Resource ARN
         final ResourceModel model1 = ResourceModel.builder().logDestinationConfigs(logDestinationConfigs).build();
-        
+
         //Pass a model which has no Log Destination Configs
         final ResourceModel model2 = ResourceModel.builder().resourceArn("resourcearn").build();
-        
+
         //Pass a model which changes Log Destination Configs
         final ResourceModel model3 = ResourceModel.builder().resourceArn("resourcearn").logDestinationConfigs(newLogDestinationConfigs).build();
-        
+
         models.add(model1);
         models.add(model2);
         models.add(model3);
 
-        for(int i = 0; i < models.size(); i++) { 
-            
+        for(int i = 0; i < models.size(); i++) {
+
             final ResourceHandlerRequest<ResourceModel> request = ResourceHandlerRequest.<ResourceModel>builder()
                     .previousResourceState(previousModel)
                     .desiredResourceState(models.get(i))

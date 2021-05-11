@@ -29,7 +29,7 @@ import software.amazon.cloudformation.proxy.ProxyClient;
 public abstract class AbstractTestBase {
   protected static final Credentials MOCK_CREDENTIALS;
   protected static final LoggerProxy logger;
-  
+
   public abstract void setupHandler();
 
   @Mock
@@ -41,7 +41,7 @@ public abstract class AbstractTestBase {
   @Mock
   protected Wafv2Client sdkClient;
 
-  
+
   @BeforeEach
   public void setup() {
     proxy = new AmazonWebServicesClientProxy(logger, MOCK_CREDENTIALS, () -> Duration.ofSeconds(600).toMillis());
@@ -49,7 +49,7 @@ public abstract class AbstractTestBase {
     proxyClient = MOCK_PROXY(proxy, sdkClient);
     setupHandler();
   }
-  
+
   @AfterEach
   public void tear_down(org.junit.jupiter.api.TestInfo testInfo) {
     if (testInfo.getTags().contains("noSdkInteraction")) {
@@ -64,7 +64,7 @@ public abstract class AbstractTestBase {
     MOCK_CREDENTIALS = new Credentials("accessKey", "secretKey", "token");
     logger = new LoggerProxy();
   }
-  
+
   static ProxyClient<Wafv2Client> MOCK_PROXY(
     final AmazonWebServicesClientProxy proxy,
     final Wafv2Client sdkClient) {
