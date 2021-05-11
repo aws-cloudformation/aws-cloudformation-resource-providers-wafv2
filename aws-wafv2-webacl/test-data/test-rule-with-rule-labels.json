@@ -1,0 +1,28 @@
+{
+  "Action": {
+    "Block": {}
+  },
+  "RuleLabels": [
+    {
+      "Name": "testRuleLabel1"
+    },
+    {
+      "Name": "testRuleLabel2"
+    }
+  ],
+  "VisibilityConfig": {
+    "SampledRequestsEnabled": true,
+    "CloudWatchMetricsEnabled": true,
+    "MetricName": "testMetricName"
+  },
+  "Name": "testName",
+  "Priority": 100,
+  "Statement": {
+    "GeoMatchStatement": {
+      "CountryCodes": [
+        "US",
+        "CN"
+      ]
+    }
+  }
+}

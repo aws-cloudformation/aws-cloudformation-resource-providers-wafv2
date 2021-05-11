@@ -1,0 +1,18 @@
+{
+    "artifact_type": "RESOURCE",
+    "typeName": "AWS::WAFv2::RegexPatternSet",
+    "language": "java",
+    "runtime": "java8",
+    "entrypoint": "com.amazonaws.wafv2.regexpatternset.HandlerWrapper::handleRequest",
+    "testEntrypoint": "com.amazonaws.wafv2.regexpatternset.HandlerWrapper::testEntrypoint",
+    "settings": {
+        "namespace": [
+            "com",
+            "amazonaws",
+            "wafv2",
+            "regexpatternset"
+        ],
+        "protocolVersion": "2.0.0"
+    },
+    "executableEntrypoint": "com.amazonaws.wafv2.regexpatternset.HandlerWrapperExecutable"
+}

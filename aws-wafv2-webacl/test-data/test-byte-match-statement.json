@@ -1,0 +1,15 @@
+{
+  "FieldToMatch": {
+    "SingleHeader": {
+      "Name": "haystack"
+    }
+  },
+  "PositionalConstraint": "CONTAINS_WORD",
+  "SearchString": "bmVlZGxl",
+  "TextTransformations": [
+    {
+      "Priority": 0,
+      "Type": "NONE"
+    }
+  ]
+}

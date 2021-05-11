@@ -1,0 +1,35 @@
+{
+  "Action": {
+    "Block": {
+      "CustomResponse": {
+        "ResponseCode": 503,
+        "CustomResponseBodyKey": "CustomResponseBodyKey1",
+        "ResponseHeaders": [
+          {
+            "Name": "ruleBlockActionHeader1Name",
+            "Value": "ruleBlockActionHeader1Value"
+          },
+          {
+            "Name": "ruleBlockActionHeader2Name",
+            "Value": "ruleBlockActionHeader2Value"
+          }
+        ]
+      }
+    }
+  },
+  "VisibilityConfig": {
+    "SampledRequestsEnabled": true,
+    "CloudWatchMetricsEnabled": true,
+    "MetricName": "testMetricName"
+  },
+  "Name": "testName",
+  "Priority": 300,
+  "Statement": {
+    "GeoMatchStatement": {
+      "CountryCodes": [
+        "US",
+        "CN"
+      ]
+    }
+  }
+}

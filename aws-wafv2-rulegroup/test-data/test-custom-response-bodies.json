@@ -1,0 +1,14 @@
+{
+  "CustomResponseBodyKey1": {
+    "ContentType": "TEXT_PLAIN",
+    "Content": "this is a plain text"
+  },
+  "CustomResponseBodyKey2": {
+    "ContentType": "APPLICATION_JSON",
+    "Content": "{\"jsonfieldname\": \"jsonfieldvalue\"}"
+  },
+  "CustomResponseBodyKey3": {
+    "ContentType": "TEXT_HTML",
+    "Content": "<html>HTML text content<html>"
+  }
+}

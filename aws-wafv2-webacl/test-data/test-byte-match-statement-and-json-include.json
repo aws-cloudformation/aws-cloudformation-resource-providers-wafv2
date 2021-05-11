@@ -1,0 +1,22 @@
+{
+  "FieldToMatch": {
+    "JsonBody": {
+      "MatchPattern": {
+        "IncludedPaths": [
+          "/foo",
+          "/bar"
+        ]
+      },
+      "MatchScope": "VALUE",
+      "InvalidFallbackBehavior": "NO_MATCH"
+    }
+  },
+  "PositionalConstraint": "CONTAINS_WORD",
+  "SearchString": "bmVlZGxl",
+  "TextTransformations": [
+    {
+      "Priority": 0,
+      "Type": "NONE"
+    }
+  ]
+}

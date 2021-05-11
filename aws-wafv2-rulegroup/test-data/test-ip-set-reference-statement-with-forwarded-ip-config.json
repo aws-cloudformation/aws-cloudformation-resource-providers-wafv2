@@ -1,0 +1,8 @@
+{
+  "Arn": "arn:aws:wafv2:us-west-2:123456789012:regional/ipset/foo/e1ebfa05-2348-4dfd-a8b4-ddce8b599d30",
+  "IPSetForwardedIPConfig": {
+    "HeaderName": "testHeader",
+    "FallbackBehavior": "MATCH",
+    "Position": "LAST"
+  }
+}

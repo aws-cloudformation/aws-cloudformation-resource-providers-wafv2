@@ -1,0 +1,5 @@
+{
+  "SampledRequestsEnabled": true,
+  "CloudWatchMetricsEnabled": true,
+  "MetricName": "testMetricName"
+}

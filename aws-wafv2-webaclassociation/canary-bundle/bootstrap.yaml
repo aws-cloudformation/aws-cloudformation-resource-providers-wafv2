@@ -1,0 +1,106 @@
+---
+Parameters:
+  apiGatewayStageName:
+    Type: "String"
+    AllowedPattern: "^[a-z0-9]+$"
+    Default: "gautreau"
+
+  webAclName:
+    Type: "String"
+    AllowedPattern: "^[a-zA-Z0-9]+$"
+    Default: "canaryWebAclGautreau"
+
+  webAclNameTwo:
+    Type: "String"
+    AllowedPattern: "^[a-zA-Z0-9]+$"
+    Default: "canaryWebAclGautreauTwo"
+
+  webAclScopeLower:
+    Type: "String"
+    AllowedPattern: "^[a-z]+$"
+    Default: "regional"
+
+  # cfn might have a way to do this but this is a hack until wacl can return its arn anyway
+  webAclScopeUpper:
+    Type: "String"
+    AllowedPattern: "^[A-Z]+$"
+    Default: "REGIONAL"
+
+Resources:
+  apiGateway:
+    Type: "AWS::ApiGateway::RestApi"
+    Properties:
+      Name: "my-api"
+      Description: "My API"
+      Parameters:
+        endpointConfigurationTypes: REGIONAL
+        ignore: documentation
+      EndpointConfiguration:
+        Types:
+          - REGIONAL
+
+  apiGatewayRootMethod:
+    Type: "AWS::ApiGateway::Method"
+    Properties:
+      ResourceId: !GetAtt "apiGateway.RootResourceId"
+      RestApiId: !Ref "apiGateway"
+      HttpMethod: GET
+      AuthorizationType: NONE
+      Integration:
+        Type: MOCK
+
+  apiGatewayDeployment:
+    Type: "AWS::ApiGateway::Deployment"
+    DependsOn:
+      - "apiGatewayRootMethod"
+    Properties:
+      RestApiId: !Ref "apiGateway"
+      StageName: !Ref "apiGatewayStageName"
+
+  CanaryWebACL:
+    Type: 'AWS::WAFv2::WebACL'
+    Properties:
+      Name: !Ref webAclName
+      Scope: !Ref webAclScopeUpper
+      Description: This is a canary WebACL that will be updated
+      DefaultAction:
+        Allow: {}
+      VisibilityConfig:
+        SampledRequestsEnabled: true
+        CloudWatchMetricsEnabled: true
+        MetricName: CanaryWebACLMetric
+
+  CanaryWebACLTwo:
+    Type: 'AWS::WAFv2::WebACL'
+    Properties:
+      Name: !Ref webAclNameTwo
+      Scope: !Ref webAclScopeUpper
+      Description: This is a canary WebACL that will be updated
+      DefaultAction:
+        Allow: {}
+      VisibilityConfig:
+        SampledRequestsEnabled: true
+        CloudWatchMetricsEnabled: true
+        MetricName: CanaryWebACLMetricTwo
+
+Outputs:
+    WebACLArnOne:
+        Value: !Sub
+          - arn:aws:wafv2:${AWS::Region}:${AWS::AccountId}:${ScopeLower}/webacl/${WaclName}/${WaclId}
+          - ScopeLower: !Ref webAclScopeLower
+            WaclName: !Ref webAclName
+            WaclId: !Select [1, !Split ["|", !Ref CanaryWebACL]]
+        Export:
+          Name: WebACLOneArn
+    WebACLArnTwo:
+        Value: !Sub
+          - arn:aws:wafv2:${AWS::Region}:${AWS::AccountId}:${ScopeLower}/webacl/${WaclName}/${WaclId}
+          - ScopeLower: !Ref webAclScopeLower
+            WaclName: !Ref webAclNameTwo
+            WaclId: !Select [1, !Split ["|", !Ref CanaryWebACLTwo]]
+        Export:
+          Name: WebACLTwoArn
+    APIGatewayARN:
+        Value: !Sub "arn:aws:apigateway:${AWS::Region}::/restapis/${apiGateway}/stages/${apiGatewayStageName}"
+        Export:
+          Name: APIGatewayArn
