@@ -23,9 +23,9 @@ jobs:
     - name: Setup Python
       uses: actions/setup-python@v2.2.2
       with:
-        python-version: 3.7
-    - name: Install Python packages
-      run: pip install pre-commit cloudformation-cli cloudformation-cli-java-plugin
+        python-version: 3.8
+    - name: Set up cloudformation-cli-java-plugin
+      run: pip install cloudformation-cli-java-plugin
     - name: Run pre-commit
       run: pre-commit run --all-files
     - name: Install aws-wafv2-commons
@@ -47,5 +47,7 @@ jobs:
           test "$directory" = "$GITHUB_WORKSPACE/aws-wafv2-commons" && continue
           echo "cat rpdk.log for $directory"
           cd "$directory"
-          cat rpdk.log          
+          if [ "$(ls -A rpdk.log)" ]; then
+            cat rpdk.log          
+          fi
         done
