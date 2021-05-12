@@ -26,8 +26,10 @@ jobs:
         python-version: 3.8
     - name: Set up cloudformation-cli-java-plugin
       run: pip install cloudformation-cli-java-plugin
-    - name: Run pre-commit
-      run: pre-commit run --all-files
+    - name: install and run pre-commit
+      uses: pre-commit/action@v2.0.0
+      with:
+        extra_args: --all-files
     - name: Install aws-wafv2-commons
       run: |
         cd "${GITHUB_WORKSPACE}/aws-wafv2-commons"
