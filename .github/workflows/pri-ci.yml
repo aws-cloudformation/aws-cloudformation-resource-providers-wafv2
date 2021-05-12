@@ -46,4 +46,11 @@ jobs:
         done
     - name: Failure diff
       if: ${{ failure() }}
-      run: git diff
+      run: |
+        for directory in $GITHUB_WORKSPACE/aws-*; do
+          test "$directory" = "$GITHUB_WORKSPACE/aws-wafv2-commons" && continue
+          cd "$directory"
+          if [ "$(ls -A rpdk.log)" ]; then
+            cat rpdk.log          
+          fi
+        done
