@@ -1,0 +1,49 @@
+name: Java CI with Maven
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    env:
+      AWS_DEFAULT_REGION: us-east-1
+      AWS_REGION: us-east-1
+
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up JDK 8
+      uses: actions/setup-java@v2
+      with:
+        java-version: '8'
+        distribution: 'adopt'
+    - name: Setup Python
+      uses: actions/setup-python@v2.2.2
+      with:
+        python-version: 3.7
+    - name: Install Python packages
+      run: |
+        pip install --upgrade 'six==1.15.0'
+        pip install pre-commit
+        pip install pyyaml --upgrade
+        pip install cloudformation-cli cloudformation-cli-java-plugin
+    - name: Run pre-commit
+      run: pre-commit run --all-files
+    - name: Install aws-wafv2-commons
+      run: |
+        cd "${GITHUB_WORKSPACE}/aws-wafv2-commons"
+        mvn clean install
+    - name: Run maven verify for all resources
+      run: |
+        for directory in $GITHUB_WORKSPACE/aws-*; do
+          test "$directory" = "$GITHUB_WORKSPACE/aws-wafv2-commons" && continue
+          cd "$directory"
+          mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn -B clean verify --no-transfer-progress
+          cat rpdk.log
+        done
+    - name: Failure diff
+      if: ${{ failure() }}
+      run: git diff
