@@ -25,11 +25,7 @@ jobs:
       with:
         python-version: 3.7
     - name: Install Python packages
-      run: |
-        pip install --upgrade 'six==1.15.0'
-        pip install pre-commit
-        pip install pyyaml --upgrade
-        pip install cloudformation-cli cloudformation-cli-java-plugin
+      run: pip install pre-commit cloudformation-cli cloudformation-cli-java-plugin
     - name: Run pre-commit
       run: pre-commit run --all-files
     - name: Install aws-wafv2-commons
@@ -49,8 +45,7 @@ jobs:
       run: |
         for directory in $GITHUB_WORKSPACE/aws-*; do
           test "$directory" = "$GITHUB_WORKSPACE/aws-wafv2-commons" && continue
+          echo "cat rpdk.log for $directory"
           cd "$directory"
-          if [ "$(ls -A rpdk.log)" ]; then
-            cat rpdk.log          
-          fi
+          cat rpdk.log          
         done
