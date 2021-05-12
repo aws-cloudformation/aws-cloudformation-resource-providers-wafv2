@@ -25,7 +25,10 @@ jobs:
       with:
         python-version: 3.8
     - name: Set up cloudformation-cli-java-plugin
-      run: pip install cloudformation-cli-java-plugin
+      run: |
+        pip install cloudformation-cli-java-plugin
+        pip uninstall jinja2
+        pip install Jinja2==2.10.1
     - name: install and run pre-commit
       uses: pre-commit/action@v2.0.0
       with:
@@ -42,7 +45,7 @@ jobs:
           mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn -B clean verify --no-transfer-progress
           cat rpdk.log
         done
-    - name: Failure diff
+    - name: Output rpdk.log
       if: ${{ failure() }}
       run: |
         for directory in $GITHUB_WORKSPACE/aws-*; do
