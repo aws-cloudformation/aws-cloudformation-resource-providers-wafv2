@@ -45,7 +45,7 @@ jobs:
           mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn -B clean verify --no-transfer-progress
           cat rpdk.log
         done
-    - name: Output rpdk.log
+    - name: Output rpdk.log after failure
       if: ${{ failure() }}
       run: |
         for directory in $GITHUB_WORKSPACE/aws-*; do
