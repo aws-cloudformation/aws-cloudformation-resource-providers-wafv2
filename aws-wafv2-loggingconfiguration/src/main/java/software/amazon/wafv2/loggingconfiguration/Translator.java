@@ -22,7 +22,7 @@ public class Translator {
   /**
    * Request to create a resource
    * @param model resource model
-   * @return awsRequest the aws service request to create a resource
+   * @return PutLoggingConfigurationRequest the aws service request to create a resource
    */
   static PutLoggingConfigurationRequest translateToCreateRequest(final ResourceModel model) {
       return PutLoggingConfigurationRequest.builder()
@@ -39,7 +39,7 @@ public class Translator {
 
       return LoggingConfiguration.builder()
               .resourceArn(model.getResourceArn())
-              .logDestinationConfigs(model.getLogDestinationConfigs().get(0)) // TODO: What happens if there is more than 1?
+              .logDestinationConfigs(model.getLogDestinationConfigs().get(0))
               .loggingFilter(Converter.INSTANCE.convert(model.getLoggingFilter()))
               .managedByFirewallManager(model.getManagedByFirewallManager())
               .redactedFields(translateToSDKRedactedFields(model.getRedactedFields()))
@@ -60,7 +60,7 @@ public class Translator {
   /**
    * Request to read a resource
    * @param model resource model
-   * @return awsRequest the aws service request to describe a resource
+   * @return GetLoggingConfigurationRequest the aws service request to describe a resource
    */
   static GetLoggingConfigurationRequest translateToReadRequest(final ResourceModel model) {
     return GetLoggingConfigurationRequest.builder().resourceArn(model.getResourceArn()).build();
@@ -106,7 +106,7 @@ public class Translator {
   /**
    * Request to list resources
    * @param nextToken token passed to the aws service list resources request
-   * @return awsRequest the aws service request to list resources within aws account
+   * @return ListLoggingConfigurationsRequest the aws service request to list resources within aws account
    */
   static ListLoggingConfigurationsRequest translateToListRequest(final String nextToken) {
     return ListLoggingConfigurationsRequest.builder()

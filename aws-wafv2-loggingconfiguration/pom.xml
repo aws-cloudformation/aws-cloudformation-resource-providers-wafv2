@@ -225,6 +225,7 @@
                         <exclude>**/BaseHandler*</exclude>
                         <exclude>**/HandlerWrapper*</exclude>
                         <exclude>**/ResourceModel*</exclude>
+                        <exclude>**/Converter*</exclude>
                     </excludes>
                 </configuration>
                 <executions>

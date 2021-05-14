@@ -1,0 +1,12 @@
+{
+	"DefaultBehavior": "KEEP",
+	"Filters": [{
+		"Behavior": "KEEP",
+		"Conditions": [{
+			"ActionCondition": {
+				"Action": "BLOCK"
+			}
+		}],
+		"Requirement": "MEETS_ANY"
+	}]
+}
