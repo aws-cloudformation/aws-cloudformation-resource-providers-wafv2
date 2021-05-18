@@ -94,7 +94,6 @@ public class CreateHandlerTest extends AbstractTestBase {
         loggingConfiguration1 = LoggingConfiguration.builder()
                 .resourceArn("resourcearn")
                 .logDestinationConfigs(logDestinationConfigs)
-                .managedByFirewallManager(true)
                 .loggingFilter(logFilter)
                 .redactedFields(fieldsToMatch1)
                 .build();
@@ -102,7 +101,6 @@ public class CreateHandlerTest extends AbstractTestBase {
         loggingConfiguration2 = LoggingConfiguration.builder()
                 .resourceArn("resourcearn")
                 .logDestinationConfigs(logDestinationConfigs)
-                .managedByFirewallManager(true)
                 .loggingFilter(logFilter)
                 .redactedFields(fieldsToMatch2)
                 .build();
@@ -152,7 +150,6 @@ public class CreateHandlerTest extends AbstractTestBase {
 
         final ResourceModel model = ResourceModel.builder()
                 .resourceArn("resourcearn")
-                .managedByFirewallManager(true)
                 .logDestinationConfigs(logDestinationConfigs)
                 .loggingFilter(modelLogFilter)
                 .redactedFields(modelFieldsToMatch)
@@ -210,7 +207,6 @@ public class CreateHandlerTest extends AbstractTestBase {
 
         final ResourceModel model = ResourceModel.builder()
                 .resourceArn("resourcearn")
-                .managedByFirewallManager(true)
                 .logDestinationConfigs(logDestinationConfigs)
                 .loggingFilter(modelLogFilter)
                 .redactedFields(modelFieldsToMatch)
@@ -237,7 +233,6 @@ public class CreateHandlerTest extends AbstractTestBase {
 
         final ResourceModel model = ResourceModel.builder()
                 .resourceArn("resourcearn")
-                .managedByFirewallManager(true)
                 .logDestinationConfigs(logDestinationConfigs)
                 .build();
 
@@ -264,9 +259,17 @@ public class CreateHandlerTest extends AbstractTestBase {
 
         //Pass a model which has no Log Destination Configs
         final ResourceModel model2 = ResourceModel.builder().resourceArn("resourcearn").build();
+        
+        //Pass a model which has no Log Destination Configs
+        final ResourceModel model3 = ResourceModel.builder()
+                .managedByFirewallManager(true)
+                .logDestinationConfigs(logDestinationConfigs)
+                .resourceArn("resourcearn")
+                .build();        
 
         models.add(model1);
         models.add(model2);
+        models.add(model3);
 
         for(int i = 0; i < models.size(); i++) {
             final ResourceHandlerRequest<ResourceModel> request = ResourceHandlerRequest.<ResourceModel>builder().desiredResourceState(models.get(i)).build();
@@ -279,8 +282,10 @@ public class CreateHandlerTest extends AbstractTestBase {
             assertThat(response.getResourceModels()).isNull();
             if (i == 0) {
                 assertThat(response.getMessage()).isEqualTo("Resource ARN cannot be empty");
-            } else {
+            } else if (i == 1) {
                 assertThat(response.getMessage()).isEqualTo("LogDestinationConfigs cannot be empty");
+            } else {
+                assertThat(response.getMessage()).isEqualTo("ManagedByFirewallManager is a Read-Only property");
             }
             assertThat(response.getErrorCode()).isEqualTo(HandlerErrorCode.InvalidRequest);
         }

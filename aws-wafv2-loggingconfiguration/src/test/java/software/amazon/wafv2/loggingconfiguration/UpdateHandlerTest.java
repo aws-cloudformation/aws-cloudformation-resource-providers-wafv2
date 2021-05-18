@@ -37,7 +37,6 @@ public class UpdateHandlerTest extends AbstractTestBase {
         loggingConfiguration = LoggingConfiguration.builder()
                 .resourceArn("resourcearn")
                 .logDestinationConfigs(logDestinationConfigs)
-                .managedByFirewallManager(true)
                 .build();
 
         // Previous Model
@@ -57,7 +56,6 @@ public class UpdateHandlerTest extends AbstractTestBase {
 
         final ResourceModel model = ResourceModel.builder()
                 .resourceArn("resourcearn")
-                .managedByFirewallManager(false)
                 .logDestinationConfigs(logDestinationConfigs)
                 .build();
 
@@ -85,7 +83,6 @@ public class UpdateHandlerTest extends AbstractTestBase {
 
         final ResourceModel model = ResourceModel.builder()
                 .resourceArn("resourcearn")
-                .managedByFirewallManager(false)
                 .logDestinationConfigs(logDestinationConfigs)
                 .build();
 
@@ -120,9 +117,13 @@ public class UpdateHandlerTest extends AbstractTestBase {
         //Pass a model which changes Log Destination Configs
         final ResourceModel model3 = ResourceModel.builder().resourceArn("resourcearn").logDestinationConfigs(newLogDestinationConfigs).build();
 
+        //Pass a model which changes Log Destination Configs
+        final ResourceModel model4 = ResourceModel.builder().resourceArn("resourcearn").logDestinationConfigs(logDestinationConfigs).managedByFirewallManager(true).build();
+        
         models.add(model1);
         models.add(model2);
         models.add(model3);
+        models.add(model4);
 
         for(int i = 0; i < models.size(); i++) {
 
@@ -143,9 +144,12 @@ public class UpdateHandlerTest extends AbstractTestBase {
             } else if (i == 1) {
                 assertThat(response.getMessage()).isEqualTo("LogDestinationConfigs cannot be empty");
                 assertThat(response.getErrorCode()).isEqualTo(HandlerErrorCode.InvalidRequest);
-            } else {
+            } else if (i == 2) {
                 assertThat(response.getMessage()).isEqualTo("LogDestinationConfigs is a create only property");
                 assertThat(response.getErrorCode()).isEqualTo(HandlerErrorCode.InvalidRequest);
+            } else {
+                assertThat(response.getMessage()).isEqualTo("ManagedByFirewallManager is a Read-Only property");
+                assertThat(response.getErrorCode()).isEqualTo(HandlerErrorCode.InvalidRequest);                
             }
         }
     }

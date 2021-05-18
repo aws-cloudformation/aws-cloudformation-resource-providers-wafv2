@@ -1,5 +1,7 @@
 package software.amazon.wafv2.loggingconfiguration;
 
+import java.util.Objects;
+
 import org.apache.commons.lang3.StringUtils;
 
 import software.amazon.awssdk.services.wafv2.Wafv2Client;
@@ -29,12 +31,16 @@ public class UpdateHandler extends BaseHandlerStd {
             return ProgressEvent.failed(model, callbackContext, HandlerErrorCode.NotFound, "Resource ARN cannot be empty");
         }
 
-        if(model.getLogDestinationConfigs() == null || model.getLogDestinationConfigs().isEmpty()) {
+        if (model.getLogDestinationConfigs() == null || model.getLogDestinationConfigs().isEmpty()) {
             return ProgressEvent.failed(model, callbackContext, HandlerErrorCode.InvalidRequest, "LogDestinationConfigs cannot be empty");
         }
 
         if (!previousModel.getLogDestinationConfigs().get(0).equals(model.getLogDestinationConfigs().get(0))) {
             return ProgressEvent.failed(model, callbackContext, HandlerErrorCode.InvalidRequest, "LogDestinationConfigs is a create only property");
+        }
+        
+        if (!Objects.isNull(model.getManagedByFirewallManager())) {
+            return ProgressEvent.failed(model, callbackContext, HandlerErrorCode.InvalidRequest, "ManagedByFirewallManager is a Read-Only property");
         }
 
         // Check if the Logging Configuration exists, upon a successful read, proceed to change the configuration

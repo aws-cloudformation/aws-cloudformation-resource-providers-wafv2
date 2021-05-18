@@ -41,7 +41,6 @@ public class Translator {
               .resourceArn(model.getResourceArn())
               .logDestinationConfigs(model.getLogDestinationConfigs().get(0))
               .loggingFilter(Converter.INSTANCE.convert(model.getLoggingFilter()))
-              .managedByFirewallManager(model.getManagedByFirewallManager())
               .redactedFields(translateToSDKRedactedFields(model.getRedactedFields()))
               .build();
   }
