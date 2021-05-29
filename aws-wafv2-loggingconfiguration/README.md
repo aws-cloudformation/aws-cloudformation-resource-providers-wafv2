@@ -13,7 +13,7 @@ The Cloudformation CLI tool is needed to submit this resource to Cloudformation 
 
 ## Submitting this resource as a Private Type
 
-The following instructions help you to extract the code in this repository and submit this resource as a private type to your account. You will also need the `aws-wafv2-commons` libraries in your local acccount before you build this package.  
+The following instructions help you to extract the code in this repository and submit this resource as a private type to your account. You will also need the `aws-wafv2-commons` libraries in your local environment before you build this package.  
 
 1. Pull the `aws-wafv2-commons` code from - https://github.com/aws-cloudformation/aws-cloudformation-resource-providers-wafv2/tree/main/aws-wafv2-commons
 2. Change to the `aws-wafv2-commons` directory - `cd aws-wafv2-commons`
