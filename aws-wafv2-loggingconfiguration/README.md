@@ -9,7 +9,7 @@ This has been made possible using Cloudformation Registry. For more details abou
 2. Apache Maven - `brew install maven` - if you are on a Mac
 3. Cloudformation CLI and Cloudformation Java Plugin - https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/what-is-cloudformation-cli.html
 
-The Cloudformation CLI tool is needed to submit this resource to Cloudformation Registry as a Private Type. You can also look at - https://github.com/aws-cloudformation/aws-cloudformation-resource-providers-wafv2/blob/bda16eaff1b6d5dd3d8cf3f8ef6abec34ff3e7b3/.github/workflows/pri-ci.yml - for build steps
+The Cloudformation CLI tool is needed to submit this resource to Cloudformation Registry as a Private Type. You can also look at - https://github.com/aws-cloudformation/aws-cloudformation-resource-providers-wafv2/blob/main/.github/workflows/pri-ci.yml - for build steps
 
 ## Submitting this resource as a Private Type
 
