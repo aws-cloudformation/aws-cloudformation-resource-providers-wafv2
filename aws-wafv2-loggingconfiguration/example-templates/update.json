@@ -1,0 +1,59 @@
+{
+  "Resources": {
+    "LoggingConfiguration": {
+      "Type": "AWS::WAFv2::LoggingConfiguration",
+      "Properties": {
+        "ResourceArn": "arn:aws:wafv2:ap-southeast-1:663901866008:regional/webacl/test-webacl-v2/bf0b1418-418e-4c38-891e-7fa303355908",
+        "LogDestinationConfigs": [
+          "arn:aws:firehose:ap-southeast-1:663901866008:deliverystream/aws-waf-logs-firehose-2"
+        ],
+        "RedactedFields": [
+          {
+            "JsonBody": {
+              "InvalidFallbackBehavior": "EVALUATE_AS_STRING",
+              "MatchPattern": {
+                "All": {}
+              },
+              "MatchScope": "ALL"
+            }
+          },
+          {
+            "Method": {}
+          },
+          {
+            "QueryString": {}
+          },
+          {
+            "SingleHeader": {
+              "Name": "password"
+            }
+          },
+          {
+            "UriPath": {}
+          }
+        ],
+        "LoggingFilter": {
+          "DefaultBehavior": "KEEP",
+          "Filters": [
+            {
+              "Behavior": "KEEP",
+              "Conditions": [
+                {
+                  "ActionCondition": {
+                    "Action": "BLOCK"
+                  }
+                },
+                {
+                  "LabelNameCondition": {
+                    "LabelName": "testlabel"
+                  }
+                }
+              ],
+              "Requirement": "MEETS_ANY"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

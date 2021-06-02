@@ -1,0 +1,9 @@
+{
+	"JsonBody": {
+		"InvalidFallbackBehavior": "EVALUATE_AS_STRING",
+		"MatchPattern": {
+			"All": {}
+		},
+		"MatchScope": "ALL"
+	}
+}
