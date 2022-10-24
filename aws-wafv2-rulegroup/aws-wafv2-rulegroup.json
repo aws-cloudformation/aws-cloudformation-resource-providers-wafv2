@@ -313,7 +313,7 @@
       "properties": {
         "HeaderName": {
           "type": "string",
-          "pattern": "^[a-zA-Z0-9-]+{1,255}$"
+          "pattern": "^[a-zA-Z0-9-]{1,255}$"
         },
         "FallbackBehavior": {
           "type": "string",
@@ -334,7 +334,7 @@
       "properties": {
         "HeaderName": {
           "type": "string",
-          "pattern": "^[a-zA-Z0-9-]+{1,255}$"
+          "pattern": "^[a-zA-Z0-9-]{1,255}$"
         },
         "FallbackBehavior": {
           "type": "string",
