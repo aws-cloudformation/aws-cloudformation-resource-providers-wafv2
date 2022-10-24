@@ -206,7 +206,7 @@
     "JsonPointerPath": {
       "description": "JSON pointer path in the web request's JSON body",
       "type": "string",
-      "pattern": "^[\\/]+([^~]*(~[01])*)*{1,512}$"
+      "pattern": "^[\\/]+([^~]*(~[01])*){1,512}$"
     },
     "GeoMatchStatement": {
       "type": "object",
@@ -391,7 +391,7 @@
       "properties": {
         "HeaderName": {
           "type": "string",
-          "pattern": "^[a-zA-Z0-9-]+{1,255}$"
+          "pattern": "^[a-zA-Z0-9-]{1,255}$"
         },
         "FallbackBehavior": {
           "type": "string",
@@ -412,7 +412,7 @@
       "properties": {
         "HeaderName": {
           "type": "string",
-          "pattern": "^[a-zA-Z0-9-]+{1,255}$"
+          "pattern": "^[a-zA-Z0-9-]{1,255}$"
         },
         "FallbackBehavior": {
           "type": "string",
