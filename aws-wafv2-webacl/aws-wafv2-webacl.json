@@ -354,7 +354,7 @@
     },
     "RateLimit": {
       "type": "integer",
-      "minimum": 100,
+      "minimum": 10,
       "maximum": 2000000000
     },
     "RegexPatternSetReferenceStatement": {
